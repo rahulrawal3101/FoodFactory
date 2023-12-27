@@ -1,6 +1,6 @@
 'use client'
 import Header from '@/components/Header';
-import { Box, Button, Container, Divider, Fab, FormControl, FormControlLabel, FormLabel, Grid, Paper, Radio, RadioGroup, Skeleton, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Divider, Fab, FormControl, FormControlLabel, Grid, Paper, Radio, RadioGroup, Skeleton, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -8,10 +8,9 @@ import axios from 'axios';
 import { useParams } from 'next/navigation';
 import AddNewAddress from '@/components/AddNewAddressModal';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import address from '../../../assets/address.gif'
 
-
-
-// const newArr = new Array(4).fill(1)
 
 const Address = () => {
 
@@ -22,7 +21,9 @@ const Address = () => {
     const [allAddress, setAllAddress] = useState([]);
     const [seletAddress, setSelectAddress] = useState('');
     const [addressId, setAddressId] = useState('');
-    const [checkData, setCheckData] = useState(false)
+    const [checkData, setCheckData] = useState(false);
+    const [loaders, setLoaders] = useState(false);
+    const [showbtn, setShowbtn] = useState(false)
     const AddNewAddressModal = () => {
         setOpen(true);
     };
@@ -30,15 +31,18 @@ const Address = () => {
     const skelArr = new Array(4).fill(1)
 
     const fetchAddressApi = async () => {
+        setShowbtn(false)
         try {
             const body = await axios.get(`/api/address/${param.id}`);
             // console.log(body);
             if (body.data.message == "Data Fetch Successfully") {
                 setAllAddress(body.data.resp);
-                setCheckData(false)
+                setCheckData(false);
+                setShowbtn(true)
             }
             if (body.data.message == 'Failed To Fetch Data') {
                 setCheckData(true);
+                setShowbtn(true)
             }
 
         } catch (err) {
@@ -61,14 +65,17 @@ const Address = () => {
     // console.log(addressId)
     const deleteHandler = async (id) => {
         // console.log(id)
+        setLoaders(id)
         try {
             const body = await axios.delete(`/api/address/${id}`);
             // console.log( body);
             if (body.data.message == "Address Delete Successfully") {
                 fetchAddressApi();
+                setLoaders(false)
                 alert(body.data.message);
             } else {
-                alert('Something Wrong')
+                alert('Something Wrong');
+                setLoaders(true)
             }
 
 
@@ -80,7 +87,7 @@ const Address = () => {
         }
     }
 
-    // console.log(allAddress)
+    // console.log(allAddress.length)
     const todoBillingPage = () => {
         if (addressId == '') {
 
@@ -94,7 +101,7 @@ const Address = () => {
 
     }
 
-    // console.log(allAddress)
+    console.log(allAddress.length)
     return (
         <>
             <Grid container >
@@ -107,25 +114,29 @@ const Address = () => {
                                     <Typography sx={{ color: 'White', fontSize: { lg: '25px', md: '23px', sm: '20px', xs: '18px' }, fontWeight: 'bold' }}>Address</Typography>
 
                                 </Grid>
-                                {/* skeleton  */}
+
 
                                 {
                                     checkData ?
                                         <Grid container>
-                                            <Grid item xs={12} sx={{ p: '30px' }}>
-                                                <Typography sx={{ textAlign: 'center', color: 'grey', fontSize: '15px' }}>No Data Found</Typography>
+                                            <Grid item xs={12} sx={{ p: '20px' }}>
+                                                <Box sx={{ width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'centet' }}>
+
+                                                    <Image src={address} alt='gif' objectFit='cover' style={{ width: '100%', height: '440px' }} />
+                                                </Box>
+                                                <Typography sx={{ textAlign: 'center', fontSize: '15px', pt: '45px', fontWeight: 'bold' }}>No Data Found</Typography>
 
                                             </Grid>
-                                        </Grid> : 
-                                         
-                                        <Grid container sx={{ border: '1px solid green' }}>
+                                        </Grid> :
+
+                                        <Grid container >
                                             {
                                                 allAddress.length == 0 ?
                                                     <Grid container sx={{ justifyContent: 'space-between', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px', mt: '20px' }}>
 
                                                         {
                                                             skelArr.map((ele, index) => {
-                                                                return <Grid item xs={12} sx={{ width: { lg: '286px', md: '280px', sm: '280px', xs: '280px' }, }}>
+                                                                return <Grid key={index} item xs={12} sx={{ width: { lg: '286px', md: '280px', sm: '280px', xs: '280px' }, }}>
 
                                                                     <Grid container sx={{ justifyContent: 'space-between', alignItems: 'center', display: 'flex', m: '10px 0px' }}>
                                                                         <Grid item xs={1} sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -163,65 +174,50 @@ const Address = () => {
                                                                                 <RadioGroup
                                                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                                                     value={seletAddress} onChange={handleChange}
-                                                                                    name="radio-buttons-group"
-                                                                                >
+                                                                                    name="radio-buttons-group">
                                                                                     <Typography sx={{ fontWeight: 'bold', ml: '35px', fontSize: { lg: '19px', md: '17px', sm: '16px', xs: '15px' } }}>{ele.recieverName}</Typography>
                                                                                     <FormControlLabel value={ele._id} control={<Radio color='success' />} label={<Typography sx={{ fontSize: '15px' }}>{ele.address} {ele.landMark}, {ele.state}, {ele.country}, {ele.pinCode} <br /> {ele.mobile}</Typography>} />
 
                                                                                 </RadioGroup>
                                                                             </FormControl>
-                                                                            <DeleteForeverIcon sx={{ color: 'red', mt: '4px', mr: '15px', cursor: 'pointer' }} onClick={() => { deleteHandler(ele._id) }} />
 
+                                                                            {
+                                                                                loaders == ele._id ?
+                                                                                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: '10px' }}>
+                                                                                        <CircularProgress size={25} />
+                                                                                    </Box> :
 
-
+                                                                                    <DeleteForeverIcon sx={{ color: 'red', mt: '4px', mr: '15px', cursor: 'pointer' }} onClick={() => { deleteHandler(ele._id) }} />
+                                                                            }
                                                                         </Grid>
                                                                         <Divider sx={{ width: '100%', bgcolor: 'lightgrey', height: '1px' }} />
                                                                     </Grid>
-
                                                                 )
                                                             })
                                                         }
                                                     </Grid>
-
                                             }
-
                                         </Grid>
-                                        }
-                               
-
-
-
-
-
-
-
-
-
-
-
-                                <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: '10px', bgcolor: '#212121', borderRadius: '0px 0px 11px 11px' }}>
+                                }
+                                <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: '10px', borderRadius: '0px 0px 11px 11px' }}>
                                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                        <Button variant='contained' color='success' onClick={AddNewAddressModal}>Add New Address</Button>
-
-
+                                        {
+                                            showbtn ? <Button variant='contained' color='success' onClick={AddNewAddressModal}>Add New Address</Button>
+                                                : <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                                                    <Skeleton variant="rectangular" width={200} height={30} />
+                                                </Grid>
+                                        }
                                     </Grid>
-
                                 </Grid>
-
                             </Grid>
                         </Paper>
-
                     </Grid>
-
                 </Grid>
-
-
-                <Fab aria-label="add" variant="extended" sx={{ position: 'fixed', bottom: 20, right: 40, bgcolor: 'grey', '&:hover': { bgcolor: 'grey' } }} onClick={todoBillingPage} disabled={seletAddress.length == 0}>
+                <Fab aria-label="add" variant="extended" sx={{ position: 'fixed', bottom: 20, right: 40, bgcolor: 'green',color:'white', '&:hover': { bgcolor: 'green' } }} onClick={todoBillingPage} disabled={seletAddress.length == 0}>
                     <NavigateNextIcon />Billing
                 </Fab>
             </Grid>
             <AddNewAddress open={open} setOpen={setOpen} fetchAddressApi={fetchAddressApi} />
-
         </>
 
     )

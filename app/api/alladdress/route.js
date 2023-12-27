@@ -7,8 +7,11 @@ await CONNECT_DATABASE();
 try{
     const body = await Addres.find()
     // console.log(body)
-    if(body){
-        return NextResponse.json({message:'All Address Data Fetch Successfully',resp:body},{status:201})
+    if(body.length != 0 ){
+        return NextResponse.json({message:'All Address Data Fetch Successfully',resp:body},{status:200})
+    }
+    if(body.length == 0){
+        return NextResponse.json({message:'Failed To Fetch All Address Data'},{status:200})
     }
 
 }catch(err){

@@ -8,11 +8,17 @@ export async function GET(req,{params}){
     try{
         await CONNECT_DATABASE();
         const allCat = await Categorie.find({mid:params.mid});
-        return NextResponse.json({message:'All Data Fetch',resp:allCat},{status:201})
+        if(allCat.length >  0){
+            return NextResponse.json({message:'All Data Fetch',resp:allCat},{status:200})
+        }
+        if(allCat.length == 0){
+            return NextResponse.json({message:'Failed To Fetch Data'},{status:200})
+        }
+
 
     }catch(err){
         console.log(err)
-
+        return NextResponse.json({message:'internal Server Error'},{status:500})
     }
 }
 

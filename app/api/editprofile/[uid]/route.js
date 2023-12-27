@@ -7,14 +7,14 @@ export const PATCH = async (req, { params }) => {
     await CONNECT_DATABASE();
     try {
         const body = await req.json();
-        // console.log('name',body);
-        const resp = await User.findOne({ _id: params.uid });
-        // console.log('check resp Data ',resp);
-        if (resp != null) {
-            const editProfile = await User.findOneAndUpdate({ _id: params.uid }, { fullName: body.fullName, mobile: body.mobile, email: body.email });
-            return NextResponse.json({ message: 'Profile Edit Successfully' }, { status: 200 });
+        // console.log('nameeeee',body);
+        const res = await User.findOne({ _id: params.uid });
+        // console.log('check resp Data ',res);
+        if (res != null) {
+            const editProfile = await User.findOneAndUpdate({ _id: params.uid }, { fullName: body.fullName, mobile: body.mobile, email: body.email },{new:true});
+            return NextResponse.json({ message: 'Profile Edit Successfully',resp:res }, { status: 200 });
         }
-        if (resp == null) {
+        if (res == null) {
             return NextResponse.json({ message: 'Failed To Edit Profile' }, { status: 200 });
         }
 

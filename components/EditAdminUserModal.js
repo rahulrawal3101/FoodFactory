@@ -49,7 +49,7 @@ const EditAdminUser = ({ openEdit, setOpenEdit,  fetchUserApi }) => {
     }, [openEdit]);
 
 
-console.log(inputData)
+// console.log(inputData)
 
     const submitHandler = async () => {
         setLoaders({...loaders,loading:true})

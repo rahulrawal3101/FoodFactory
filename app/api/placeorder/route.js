@@ -11,7 +11,7 @@ export async function POST(req) {
     await CONNECT_DATABASE();
     try {
         const body = await req.json();
-        // console.log('new item data', body);
+        console.log('new item data', body);
         const { address, ...others } = body;
         // console.log('find uid in post api',others)
         const matchAddress = await Addres.find({ _id: address });

@@ -31,6 +31,10 @@ const placeOrderSchema =  new mongoose.Schema({
         required:false,
         default:'Placed'
     },
+    payment:{
+        type:String,
+        required:true
+    },
     addres:{},
     
 },{timestamps:true});

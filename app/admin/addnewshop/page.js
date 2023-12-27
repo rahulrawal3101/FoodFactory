@@ -19,7 +19,9 @@ const AddNewShop = () => {
         delivery: '',
         mobileShop: '',
         emailShop: '',
-        shopAddress: ''
+        shopAddress: '',
+        
+
 
 
     })
@@ -53,7 +55,7 @@ const AddNewShop = () => {
 
 
     // console.log(sendData)
-    console.log(getData)
+    // console.log(getData)
     return (
         <>
             <Grid container>

@@ -13,14 +13,18 @@ export async function GET(req,{params}){
             ]}
         );
         console.log('placeorder data',body)
-        if(body){
+        if(body.length != 0){
 
-            return NextResponse.json({message:'Data Fetch successfully',resp:body},{status:201})
+            return NextResponse.json({message:'Data Fetch Successfully',resp:body},{status:200});
         }
+        if(body.length == 0){
+            return NextResponse.json({message:'Failed To Fetch Data'},{status:200})
+        }
+
 
     }catch(err){
         console.log(err);
-        return NextResponse.json({message:'Failed To Fetch Data'},{status:500})
+        return NextResponse.json({message:'Internal Server Error'},{status:500})
     }
 
 }

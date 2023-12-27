@@ -32,7 +32,7 @@ import AdminPanel from '@/components/AdminPanel';
     },
     {
       list: 'All past Orders',
-      route:'allshops',
+      route:'allpastorders',
     },
    
   
@@ -50,9 +50,13 @@ const AdminDashboard = () => {
         }
         if(e == 'alladdress'){
           router.push('/admin/alladdress')
-        }if(e == 'allactiveorders'){
+        }
+        if(e == 'allactiveorders'){
           router.push('/admin/allactiveorders')
         }
+      if(e == 'allpastorders'){
+        router.push('/admin/allpastorders')
+      }
     }
 
 

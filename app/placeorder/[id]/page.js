@@ -33,7 +33,7 @@ const orderPlaced = () => {
         fetchPlaceOrderApi();
     }, []);
 
-    // console.log(details)
+    console.log(details)
 
     return (
         <Grid container sx={{ justifyContent: "center", alignItems: "center", height: "100dvh" }}>
@@ -48,11 +48,12 @@ const orderPlaced = () => {
                         <Typography align='center' sx={{ fontSize: "20px", color: "green" }}>Order Placed Successfully.</Typography>
                         <Typography align='center' sx={{ fontSize: "16px", color: "#9e9e9e" }}>Order ID : <span style={{ color: "black" }}> #{details._id}</span></Typography>
                         <Typography align='center' sx={{ fontSize: "16px", color: "#9e9e9e" }}>Order Amount : <span style={{ color: "black" }}>{details.toPay} Rs</span></Typography>
+                        <Typography align='center' sx={{ fontSize: "16px", color: "#9e9e9e" }}>Payment Method : <span style={{ color: "black" }}>{details.payment}</span></Typography>
                         <Divider sx={{ mt: "15px" }} />
                     </Box>
                     <Box>
                         <Typography align='center' sx={{ overflowWrap: "break-word", fontSize: "20px", fontWeight: "600" }}>
-                            A comfirmation email has been sent to xyx@gmail.com
+                            A comfirmation mail has been sent to your Email
                         </Typography>
                     </Box>
                     <Box sx={{ mb: "10px" }}>

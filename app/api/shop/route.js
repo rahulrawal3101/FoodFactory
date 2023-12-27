@@ -8,12 +8,18 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
     try {
         await CONNECT_DATABASE();
-        const allshops = await Shop.find()
-        return NextResponse.json({ message: 'All Data Fetch', resp: allshops })
+        const allshops = await Shop.find();
+        if (allshops.length != 0) {
+            return NextResponse.json({ message: 'All Data Fetch', resp: allshops }, { status: 200 });
+        }
+        if (allshops.length == 0) {
+            return NextResponse.json({ message: 'Failed To Fetch Data' }, { status: 200 });
+        }
+
 
     } catch (err) {
         console.log(err);
-
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 })
     }
 
 };

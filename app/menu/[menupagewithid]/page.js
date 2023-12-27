@@ -1,5 +1,5 @@
 'use client'
-import { Box, Divider, Fab, Grid, InputBase, Paper, Skeleton, Typography } from '@mui/material';
+import { Badge, Box, Divider, Fab, Grid, InputBase, Paper, Skeleton, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -32,7 +32,7 @@ const MenuPage = () => {
     const router = useRouter();
     const param = useParams();
     const skelArr = new Array(10).fill(1);
-    // console.log(param)
+    console.log(param)
 
     const [category, setCategory] = useState([]);
     const [item, setItem] = useState([]);
@@ -58,8 +58,8 @@ const MenuPage = () => {
                 setItem(getProductData.data.respItem);
                 // setCheckData(true)
 
-            } 
-            if(getProductData.data.message == 'Failed To Fetch Data') {
+            }
+            if (getProductData.data.message == 'Failed To Fetch Data') {
                 setCategory(getProductData.data.respCat);
                 setItem(getProductData.data.respItem);
                 setCheckData(true)
@@ -71,7 +71,9 @@ const MenuPage = () => {
         }
 
     }
-    console.log(checkData)
+    console.log(item)
+    console.log(item);
+    console.log(category)
     useEffect(() => {
         fetchProductApi();
     }, []);
@@ -118,7 +120,7 @@ const MenuPage = () => {
         fetchCartApi();
     }, [])
 
-    // console.log(cartData.length)
+    console.log(cartData.length)
 
 
     // console.log(param);
@@ -132,7 +134,7 @@ const MenuPage = () => {
     return (
         <>
             <Grid container sx={{ bgcolor: '#f5f5f5' }}>
-                <Header />
+                {/* <Header /> */}
 
                 <Grid container sx={{ p: '10px 12px', justifyContent: 'space-between', alignItems: 'center', }}>
                     <Grid item lg={4} md={4} sm={5} xs={5}>
@@ -173,13 +175,13 @@ const MenuPage = () => {
                 </Grid>
                 {/* gif  */}
                 {
-                    checkData ? <Grid container>
-                        <Grid item xs={12} sx={{ p: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Box sx={{ width: '30%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    checkData ? <Grid container sx={{ bgcolor:'white'}}>
+                        <Grid item xs={12} sx={{ p: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center',  }}>
+                            <Box sx={{ width: '30%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' ,  mt:'20px'}}>
 
                                 <Image src={gif1} alt='gif' objectFit='cover' style={{ width: '50%', height: '50%' }} />
                             </Box>
-                            <Typography sx={{ textAlign: 'center', color: 'white', fontSize: '19px', fontWeight: 'bold' }}>No Data Found</Typography>
+                            {/* <Typography sx={{ textAlign: 'center', color: 'white', fontSize: '19px', fontWeight: 'bold' }}>No Data Found</Typography> */}
 
                         </Grid>
 
@@ -300,19 +302,21 @@ const MenuPage = () => {
 
             </Grid>
 
+        
+
+         
+
             {
 
                 cartData.length == 0 ? '' :
-                    <Fab aria-label="add" sx={{ position: 'fixed', bottom: 40, right: 40, bgcolor: 'black', '&:hover': { bgcolor: 'black' } }} onClick={goTOCartPage}>
-                        <ShoppingCartIcon sx={{ color: 'white' }} />
-                    </Fab>
+                    <Badge color="secondary" overlap="circular" badgeContent={cartData.length} sx={{ position: 'fixed', bottom: 40, right: 40, width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: '#4caf50',cursor:'pointer' }} onClick={goTOCartPage} >
+                        <ShoppingCartIcon sx={{ fontSize: '25px', color: 'white' }} />
+                    </Badge>
+
+
+
             }
 
-
-
-            {/* <Fab aria-label="add" sx={{ position: 'fixed', bottom: 20, right: 40, bgcolor: 'black','&:hover':{bgcolor: 'black'} }} onClick={goToAddressPage}>
-                <HomeIcon sx={{ color: 'white' }} />
-            </Fab> */}
 
             <AddToCartModal modalData={modalData} setModalData={setModalData} fetchCartApi={fetchCartApi} />
 

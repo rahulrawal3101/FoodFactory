@@ -7,10 +7,17 @@ export async function GET(req,{params}) {
     try {
         await CONNECT_DATABASE();
         const getData = await Item.find({cid:params.cid});
-        return NextResponse.json({mesage:'All Data Fetch',resp:getData})
+        if(getData.length > 0){
+            return NextResponse.json({message:'All Data Fetch',resp:getData},{status:200})
+        }
+        if(getData.length == 0){
+            return NextResponse.json({message:'Failed To Fetch Data'},{status:200})
+        }
+
 
     } catch (err) {
         console.log(err);
+        return NextResponse.json({message:'Internal Server Error'},{status:500})
     }
 }
 

@@ -2,11 +2,12 @@
 import AddNewUser from '@/components/AddNewUserModal';
 import AdminPanel from '@/components/AdminPanel';
 import EditAdminUser from '@/components/EditAdminUserModal';
-import { Box, Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import axios from 'axios';
-import { set } from 'mongoose';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import gif1 from '../../../assets/gif1.gif';
+import Image from 'next/image';
 
 const AllUsers = () => {
     const router = useRouter();
@@ -14,17 +15,27 @@ const AllUsers = () => {
     const [open, setOpen] = useState(false);
     const [hidebtn, setHideBtn] = useState('');
     const [openEdit, setOpenEdit] = useState({
-        details:{},
-        open:false
+        details: {},
+        open: false
 
-    })
+    });
+    const skelArr = new Array(6).fill(1);
+    const [checkData, setCheckData] = useState(false)
 
 
     const fetchUserApi = async () => {
         try {
             const body = await axios.get('/api/user');
-            // console.log(body.data.resp)
-            setUserData(body.data.resp)
+            // console.log(body)
+            if (body.data.message == "Fetch User Data Successfully") {
+                setUserData(body.data.resp);
+                setCheckData(false)
+            }
+            if (body.data.message == 'Failed To Fetch Data') {
+                // alert(body.data.message);
+                setCheckData(true)
+            }
+
 
         } catch (err) {
             console.log(err);
@@ -77,7 +88,8 @@ const AllUsers = () => {
             if (res.data.message == 'User Updated Successfully') {
                 fetchUserApi();
                 setHideBtn('')
-            } else {
+            }
+            if (res.data.message == 'User Not Updated') {
                 alert(res.data.message);
                 setHideBtn('')
             }
@@ -88,10 +100,10 @@ const AllUsers = () => {
     };
 
     const editHandler = (ele) => {
-    //    console.log(ele)
+        //    console.log(ele)
         setOpenEdit({
-            open:true,
-            details:ele
+            open: true,
+            details: ele
         })
     }
     // console.log(userData)
@@ -109,68 +121,129 @@ const AllUsers = () => {
                     <Button variant='contained' sx={{ fontSize: '14px' }} onClick={goToAddNewUser}>Add new user</Button>
 
                 </Grid>
+                {/* no Data  */}
 
-                <Grid container>
-                    <Grid item xs={12}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead sx={{ bgcolor: 'grey' }}>
-                                    <TableRow >
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>S.No</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }} >UserName</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }} >IsActive</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Email</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Mobile </TableCell>
-                                        {/* <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Password</TableCell> */}
-                                        <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Action</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody >
-                                    {
-                                        userData.map((ele, index) => {
-                                            // console.log(ele)
-
-                                            return (
-                                                <TableRow key={index} >
-                                                    <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{index + 1}</TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '14px', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => { allAddressHandler(ele._id) }}>{ele.fullName}</TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>
-                                                        {
-                                                            hidebtn == ele._id ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                <CircularProgress size={22} />
-                                                            </Box> :
-                                                                <FormGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                    <FormControlLabel control={<Checkbox checked={ele.isActive} />} onChange={(e) => { userActiveHandler(e, ele._id) }} />
-                                                                </FormGroup>
-                                                        }
-                                                        {/* <FormGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                    <FormControlLabel control={<Checkbox checked={ele.isActive} />} onChange={(e) => { userActiveHandler(e, ele._id) }} />
-                                                                </FormGroup> */}
-
-
-                                                    </TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.email}  </TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.mobile}</TableCell>
-                                                    {/* <TableCell align="center" sx={{ fontSize: '14px',fontWeight:'bold' }}>1234567890</TableCell> */}
-                                                    <TableCell align="center" >
-                                                        <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} onClick={() => { editHandler(ele) }}>Edit</Button>
-                                                        <Button variant='contained' color='error' sx={{ fontSize: '10px' }} onClick={() => { deleteHandler(ele._id) }} >Delete</Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })
-                                    }
-
-
-
-
-
-
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                {
+                    checkData ? 
+                    <Grid container sx={{ height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Box sx={{ width: '150px', height: '200px', position: 'relative' }}>
+                            <Image src={gif1} alt='No Data' fill objectFit='cover' />
+                        </Box>
                     </Grid>
+
+                </Grid> :
+                <Grid container>
+                <Grid item xs={12}>
+
+                    {
+                        userData.length == 0 ?
+                            <Grid container>
+                                <Grid item xs={12} sx={{ m: '10px' }}>
+                                    <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px' }} />
+                                </Grid>
+                                {
+                                    skelArr.map((ele, index) => {
+                                        return <Grid container key={index} sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', m: '10px' }}>
+                                            <Grid item xs={0.5}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px', borderRadius: '7px' }} />
+                                            </Grid>
+                                            <Grid item xs={1}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px' }} />
+                                            </Grid>
+                                            <Grid item xs={0.5}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px' }} />
+                                            </Grid>
+                                            <Grid item xs={2.3}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px' }} />
+                                            </Grid>
+                                            <Grid item xs={2.3}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '40px' }} />
+                                            </Grid>
+
+                                            <Grid item xs={1.5} sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                                                <Skeleton variant="rectangular" sx={{ width: '35%', height: '40px', borderRadius: '6px' }} />
+                                                <Skeleton variant="rectangular" sx={{ width: '35%', height: '40px', borderRadius: '6px' }} />
+                                            </Grid>
+
+                                            <Grid item xs={12} sx={{ mt: '10px' }}>
+                                                <Skeleton variant="rectangular" sx={{ width: '100%', height: '2px', borderRadius: '6px' }} />
+                                            </Grid>
+                                        </Grid>
+                                    })
+                                }
+
+
+                            </Grid> :
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead sx={{ bgcolor: 'grey' }}>
+                                        <TableRow >
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>S.No</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }} >UserName</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }} >IsActive</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Email</TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Mobile </TableCell>
+                                            {/* <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Password</TableCell> */}
+                                            <TableCell align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>Action</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody >
+                                        {
+                                            userData.map((ele, index) => {
+                                                // console.log(ele)
+
+                                                return (
+                                                    <TableRow key={index} >
+                                                        <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{index + 1}</TableCell>
+                                                        <TableCell align="center" sx={{ fontSize: '14px', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => { allAddressHandler(ele._id) }}>{ele.fullName}</TableCell>
+                                                        <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>
+                                                            {
+                                                                hidebtn == ele._id ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                    <CircularProgress size={22} />
+                                                                </Box> :
+                                                                    <FormGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                        <FormControlLabel control={<Checkbox checked={ele.isActive} />} onChange={(e) => { userActiveHandler(e, ele._id) }} />
+                                                                    </FormGroup>
+                                                            }
+                                                            {/* <FormGroup sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                             <FormControlLabel control={<Checkbox checked={ele.isActive} />} onChange={(e) => { userActiveHandler(e, ele._id) }} />
+                                                         </FormGroup> */}
+
+
+                                                        </TableCell>
+                                                        <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.email}  </TableCell>
+                                                        <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.mobile}</TableCell>
+                                                        {/* <TableCell align="center" sx={{ fontSize: '14px',fontWeight:'bold' }}>1234567890</TableCell> */}
+                                                        <TableCell align="center" >
+                                                            <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} onClick={() => { editHandler(ele) }}>Edit</Button>
+                                                            <Button variant='contained' color='error' sx={{ fontSize: '10px' }} onClick={() => { deleteHandler(ele._id) }} >Delete</Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            })
+                                        }
+
+
+
+
+
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                    }
+
+
                 </Grid>
+            </Grid>
+
+                }
+               
+
+
+                
 
 
             </Grid>

@@ -3,18 +3,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Checkbox, Grid, TextField, FormGroup, FormControlLabel, CircularProgress } from '@mui/material';
-import { useEffect, useState } from 'react';
+import {  Grid, TextField, CircularProgress } from '@mui/material';
+import { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
-
-
-
 
 
 const AddNewAddress = ({ open, setOpen, fetchAddressApi }) => {
-    const router = useRouter();
-    // const id = JSON.parse(localStorage.getItem('UID'));
+    // const router = useRouter();
     const id = JSON.parse(localStorage.getItem('UID'))
     const [addressdetails, setAddressDetails] = useState({
         recieverName: '',
@@ -33,15 +28,12 @@ const AddNewAddress = ({ open, setOpen, fetchAddressApi }) => {
         setOpen(false)
     };
 
-
     const AddressInputDetails = (e) => {
         const { name, value } = e.target;
         setAddressDetails({ ...addressdetails, [name]: value })
 
     };
     // console.log(addressdetails);
-
-
 
     const submitHandler = async () => {
         setLoaders(true)
@@ -74,8 +66,6 @@ const AddNewAddress = ({ open, setOpen, fetchAddressApi }) => {
             }
             
         }
-
-
     };
 
 
@@ -83,13 +73,7 @@ const AddNewAddress = ({ open, setOpen, fetchAddressApi }) => {
     return (
         <>
 
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            >
+            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container sx={{ height: 'fit-content', width: '600px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Grid item xs={12} sx={{ borderRadius: '10px', bgcolor: 'white' }}>
                         <Grid container>

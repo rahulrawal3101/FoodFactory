@@ -15,7 +15,7 @@ export const PATCH = async (req, { params }) => {
             return NextResponse.json({message:'User Updated Successfully'},{status:200})
         }
         if(resp == null){
-            return NextResponse.json({message:'User Not Updated '},{status:200})
+            return NextResponse.json({message:'User Not Updated'},{status:200})
         }
 
     } catch (err) {

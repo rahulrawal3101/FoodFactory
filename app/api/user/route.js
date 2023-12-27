@@ -7,11 +7,12 @@ export async function GET(){
     try{
         const body = await User.find();
         // console.log('login body',body);
-        if(body){
+        if(body.length > 0){
 
-            return NextResponse.json({message:'Fetch User Data Successfully',resp:body},{status:201});
-        }else{
-            return NextResponse.json({message:'Failed To Fetch Data'},{status:403});
+            return NextResponse.json({message:'Fetch User Data Successfully',resp:body},{status:200});
+        }
+        if(body.length == 0){
+            return NextResponse.json({message:'Failed To Fetch Data'},{status:200});
         }
     }catch(err){
         console.log(err);

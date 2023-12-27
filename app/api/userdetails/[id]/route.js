@@ -9,7 +9,9 @@ export async function GET(req, { params }) {
         const body =await PlaceOrder.findOne({_id:params.id});
         // console.log(body);
         if(body){
-            return NextResponse.json({message:'User Details Fetch SuccessFully',resp:body},{status:201});
+            return NextResponse.json({message:'User Details Fetch SuccessFully',resp:body},{status:200});
+        }else{
+            return NextResponse.json({message:'Failed To Fetch User Details'},{status:200})
         }
     } catch (err) {
         console.log(err);

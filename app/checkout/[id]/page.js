@@ -1,6 +1,6 @@
 'use client'
 import Header from '@/components/Header';
-import { Box, Container, Fab, Grid, Paper, Skeleton, Typography } from '@mui/material';
+import { Box, CircularProgress, Container, Fab, Grid, Paper, Skeleton, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -8,7 +8,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/navigation';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import gif2 from '../../../assets/gif2.jpg';
+import gif1 from '../../../assets/gif1.gif';
 import Image from 'next/image';
 
 
@@ -19,6 +19,7 @@ const CheckOutPage = () => {
     const [btn, setBtn] = useState(true);
     const skelArr = new Array(4).fill(1);
     const [checkData, setCheckData] = useState(false);
+    const [loaders, setLoaders] = useState(false)
     // console.log(param)
 
     const fetchCartApi = async () => {
@@ -52,16 +53,19 @@ const CheckOutPage = () => {
     }, 0);
 
     const deleteHandler = async (id) => {
+        setLoaders(id)
         try {
             const res = await axios.delete(`/api/cart/${id}`);
             // console.log(res);
             if (res.data.message == "Item Deleted Successfully") {
                 fetchCartApi();
+                setLoaders(false)
             }
 
         } catch (err) {
             console.log(err);
-            alert(err.message)
+            alert(err.message);
+            setLoaders(false)
 
         }
     }
@@ -95,16 +99,17 @@ const CheckOutPage = () => {
                                 </Grid>
 
                                 {
-                                    checkData ? <Grid container>
-                                        <Grid item xs={12} sx={{ p: '20px' }}>
-                                            <Box sx={{width:'100%', height:'400px', display:'flex', justifyContent:'center', alignItems:'centet'}}>
+                                    checkData ?
+                                        <Grid container>
+                                            <Grid item xs={12} sx={{ p: '20px' }}>
+                                                <Box sx={{ width: '100%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-                                            <Image src={gif2} alt='gif'  objectFit='cover' style={{width:'100%', height:'440px'}}/>
-                                            </Box>
-                                            <Typography sx={{ textAlign: 'center', color: 'white', fontSize: '19px', fontWeight:'bold' }}>No Data Found</Typography>
+                                                    <Image src={gif1} alt='gif' objectFit='cover' style={{ width: '50%', height: '50%' }} />
+                                                </Box>
+                                                
 
-                                        </Grid>
-                                    </Grid> :
+                                            </Grid>
+                                        </Grid> :
 
                                         <Grid container>
 
@@ -115,8 +120,8 @@ const CheckOutPage = () => {
                                                     </Grid> :
 
                                                     <Grid item xs={12} sx={{ p: '10px' }}>
-                                                                <Typography sx={{ fontSize: { lg: '21px', md: '19px', sm: '17px', xs: '16px' }, fontWeight: 'bold', color: '#616161' }}>{cartData.length} Items</Typography>
-                                                        
+                                                        <Typography sx={{ fontSize: { lg: '21px', md: '19px', sm: '17px', xs: '16px' }, fontWeight: 'bold', color: '#616161' }}>{cartData.length} Items</Typography>
+
                                                     </Grid>
                                             }
 
@@ -183,14 +188,22 @@ const CheckOutPage = () => {
 
                                                                                     </Grid>
                                                                                     <Grid item xs={2} >
-                                                                                        <DeleteForeverIcon sx={{ color: 'crimson', cursor: 'pointer' }} onClick={() => { deleteHandler(ele._id) }} />
+                                                                                        {
+                                                                                            loaders == ele._id ?
+                                                                                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                                                    <CircularProgress size={20} />
+                                                                                                </Box> :
+
+                                                                                                <DeleteForeverIcon sx={{ color: 'crimson', cursor: 'pointer' }} onClick={() => { deleteHandler(ele._id) }} />
+                                                                                        }
+
 
                                                                                     </Grid>
                                                                                     <Grid item xs={3} sx={{ textAlign: 'right' }}>
                                                                                         <Typography sx={{ fontSize: { lg: '16px', mr: '16px', sm: '14px', xs: '14px' }, fontWeight: 'bold', color: '#616161' }}>Rs {ele.srp * ele.qty}</Typography>
 
                                                                                     </Grid>
-                                                                                </Grid>
+                                                                                 </Grid>
                                                                         }
 
 
@@ -203,33 +216,25 @@ const CheckOutPage = () => {
                                                     </Grid>
 
                                             }
+                                            <Grid container>
+                                                <Grid container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: '10px', bgcolor: 'black', borderRadius: '0px 0px 11px 11px' }}>
+                                                    <Grid item xs={4}>
+                                                        <Typography sx={{ fontSize: { lg: '19px', md: '18px', sm: '16px', xs: '15px' }, fontWeight: 'bold', color: 'white' }}>To Pay</Typography>
+
+
+                                                    </Grid>
+                                                    <Grid item xs={4} sx={{ textAlign: 'right', }}>
+                                                        <Typography sx={{ fontSize: { lg: '19px', md: '18px', sm: '16px', xs: '15px' }, fontWeight: 'bold', color: 'white' }}>Rs {totalSum}</Typography>
+
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
 
 
                                         </Grid>
                                 }
 
 
-
-
-
-
-
-
-
-
-
-
-                                <Grid container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: '10px', bgcolor: 'black', borderRadius: '0px 0px 11px 11px' }}>
-                                    <Grid item xs={4}>
-                                        <Typography sx={{ fontSize: { lg: '19px', md: '18px', sm: '16px', xs: '15px' }, fontWeight: 'bold', color: 'white' }}>To Pay</Typography>
-
-
-                                    </Grid>
-                                    <Grid item xs={4} sx={{ textAlign: 'right', }}>
-                                        <Typography sx={{ fontSize: { lg: '19px', md: '18px', sm: '16px', xs: '15px' }, fontWeight: 'bold', color: 'white' }}>Rs {totalSum}</Typography>
-
-                                    </Grid>
-                                </Grid>
 
                             </Grid>
                         </Paper>
