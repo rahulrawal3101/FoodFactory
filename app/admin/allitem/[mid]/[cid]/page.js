@@ -8,6 +8,7 @@ import axios from 'axios';
 import CustomSkeleton from '@/components/CustomSkeleton';
 import Image from 'next/image';
 import gif1 from '../../../../../assets/gif1.gif'
+import EditItemsModal from '@/components/EditItemsModal';
 
 const Allitem = () => {
     const param = useParams();
@@ -17,6 +18,12 @@ const Allitem = () => {
     const [checkData, setCheckData] = useState(false);
     const [hidebtn, setHideBtn] = useState('')
     const tableHead = ['S.No', 'ItemName', 'isAvailable', 'Mrp', 'Srp', 'Action']
+    const [itemData, setItemData] = useState(
+        {
+            open:false,
+            details:[{}]
+        }
+    )
     const addNewItemHandler = () => {
         router.push(`/admin/addnewitem/${param.mid}/${param.cid}`)
     };
@@ -24,7 +31,7 @@ const Allitem = () => {
     const fetchItemApi = async () => {
         try {
             const getItemData = await axios.get(`/api/item/${param.cid}/`)
-            console.log(getItemData);
+            // console.log(getItemData);
             if (getItemData.data.message == 'All Data Fetch') {
                 setItemAllData(getItemData.data.resp);
                 setCheckData(false)
@@ -48,7 +55,7 @@ const Allitem = () => {
         console.log(id)
         try {
             const res = await axios.delete(`/api/deleteitem/${id}`);
-            console.log(res);
+            // console.log(res);
             if (res.data.message == 'Item Deleted successfully') {
                 fetchItemApi();
             }
@@ -62,14 +69,14 @@ const Allitem = () => {
     useEffect(() => {
         fetchItemApi();
     }, []);
-    console.log(itemAllData);
+    // console.log(itemAllData);
 
     const itemAvailable = async (e, id) => {
         console.log(e)
         setHideBtn(id)
         try {
             const updateItem = await axios.patch(`/api/edititem/${id}`, { isAvailable: e.target.checked });
-            console.log(updateItem);
+            // console.log(updateItem);
             if (updateItem.data.message == "Item Update Successfully") {
                 fetchItemApi();
                 setHideBtn('')
@@ -82,6 +89,10 @@ const Allitem = () => {
             console.log(err);
             alert(err.message);
         }
+    }
+
+    const editItemHandler=(ele)=>{
+        setItemData({...itemData,open:true,details:ele})
     }
     // console.log(param)
     return (
@@ -160,7 +171,7 @@ const Allitem = () => {
                                                                             <TableCell align="center" sx={{ fontSize: '14px', color: 'green', fontWeight: 'bold' }}>Rs {ele.srp} </TableCell>
                                                                             <TableCell align="center" >
 
-                                                                                <Button variant='contained' color='success' sx={{ fontSize: '10px', m: '2px', }} >Edit</Button>
+                                                                                <Button variant='contained' color='success' sx={{ fontSize: '10px', m: '2px', }} onClick={()=>{editItemHandler(ele)}}>Edit</Button>
                                                                                 <Button variant='contained' color='error' sx={{ fontSize: '10px', m: '2px' }} onClick={() => { deleteHandler(ele._id) }}>Delete</Button>
 
                                                                             </TableCell>
@@ -181,14 +192,8 @@ const Allitem = () => {
                             }
                         </Grid>
                 }
-
-
-
-
-
-
-
             </Grid>
+            <EditItemsModal itemData={itemData} setItemData={setItemData} fetchItemApi={fetchItemApi}/>
         </>
     )
 }

@@ -1,121 +1,12 @@
 'use client'
 import { Box, Grid, Paper, Skeleton, Typography } from '@mui/material';
 import React from 'react';
-import bakery from '../assets/bakery.png';
-import beverage from '../assets/beverage.png';
-import burger0 from '../assets/burger0.png';
-import chicken from '../assets/chicken.png';
-import seafood from '../assets/seafood.png';
 import Image from 'next/image';
 import '../stylecss/style.css';
 
-const catArr = [
-    {
-        logo: bakery,
-        name: 'Bakery'
-    },
-    {
-        logo: beverage,
-        name: 'Beverage'
-    },
-    {
-        logo: burger0,
-        name: 'Burger'
-    },
-    {
-        logo: chicken,
-        name: 'Chicken'
-    },
-    {
-        logo: seafood,
-        name: 'Seafood'
-    },
-    {
-        logo: bakery,
-        name: 'Bakery'
-    },
-    {
-        logo: beverage,
-        name: 'Bakery'
-    },
-    {
-        logo: burger0,
-        name: 'Bakery'
-    },
-    {
-        logo: chicken,
-        name: 'Bakery'
-    },
-    {
-        logo: seafood,
-        name: 'Bakery'
-    },
-    {
-        logo: bakery,
-        name: 'Bakery'
-    },
-    {
-        logo: beverage,
-        name: 'Bakery'
-    },
-    {
-        logo: burger0,
-        name: 'Bakery'
-    },
-    {
-        logo: chicken,
-        name: 'Bakery'
-    },
-    {
-        logo: seafood,
-        name: 'Bakery'
-    },
-    {
-        logo: bakery,
-        name: 'Bakery'
-    },
-    {
-        logo: beverage,
-        name: 'Bakery'
-    },
-    {
-        logo: burger0,
-        name: 'Bakery'
-    },
-    {
-        logo: chicken,
-        name: 'Bakery'
-    },
-    {
-        logo: seafood,
-        name: 'Bakery'
-    },
-    {
-        logo: bakery,
-        name: 'Bakery'
-    },
-    {
-        logo: beverage,
-        name: 'Bakery'
-    },
-    {
-        logo: burger0,
-        name: 'Bakery'
-    },
-    {
-        logo: chicken,
-        name: 'Bakery'
-    },
-    {
-        logo: seafood,
-        name: 'Bakery'
-    },
-
-];
-
 
 const Categories = ({ category }) => {
-    // console.log(category)
+    console.log(category)
     const skelArr = new Array(6).fill(1)
     // console.log(category)
     return (
@@ -151,8 +42,7 @@ const Categories = ({ category }) => {
             <Box key={index} sx={{ mr: '10px', }} >
                 <Paper sx={{ width: { lg: '100px', md: '100px', sm: '95px', xs: '90px' }, mt: '20px', pt: '5px', borderRadius: '10px' }}>
                     <Box sx={{ height: { lg: '70px', md: '70px', sm: '60px', xs: '54px' }, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', width: { lg: '100%', md: '100%', sm: '99%', xs: '99%' } }}>
-                        <Image src={burger0} alt='bakery' objectFit='cober' style={{ width: '75px', height: '90%' }} />
-
+                        <Image src={require(`../public/upload/${ele.image}`)} style={{ width: '75px', height: '90%' }} />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pb: '10px' }}>
                         <Typography sx={{ color: 'grey', fontSize: '15px' }}>{ele.name}</Typography>
@@ -165,15 +55,7 @@ const Categories = ({ category }) => {
 
 </Box>
         }
-           
-
-
-
-           
-
-
-
-
+  
         </Grid>
     )
 };

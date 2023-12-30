@@ -18,14 +18,14 @@ const AllCategories = () => {
     const tableHead = ['S.No', 'Category Name', 'isAvailable', 'Image', 'Action'];
     const [hidebtn, setHideBtn] = useState('');
     const [catDetails, setCatDetails] = useState({
-        open:false,
-        details:{}
+        open: false,
+        details: {}
     })
 
     const fetchCatApi = async () => {
         try {
             const getCataData = await axios.get(`/api/category/${param.mid}`);
-            // console.log(getCataData)
+            console.log(getCataData)
             if (getCataData.data.message == 'All Data Fetch') {
                 setCatData(getCataData.data.resp);
                 setCheckData(false)
@@ -53,8 +53,8 @@ const AllCategories = () => {
 
     };
 
-    const deleteHandler = async (id) => {
-        console.log(id)
+    const deleteCatHandler = async (id) => {
+        // console.log(id)
         try {
             const res = await axios.delete(`/api/deletecategory/${id}`);
             console.log(res);
@@ -80,7 +80,7 @@ const AllCategories = () => {
         setHideBtn(id)
         try {
             const controlIsActive = await axios.patch(`/api/editcategories/${id}`, { isAvailable: e.target.checked })
-            console.log(controlIsActive)
+            // console.log(controlIsActive)
             if (controlIsActive.data.message == "Category Updated Successfully") {
                 fetchCatApi();
                 setHideBtn('')
@@ -97,9 +97,9 @@ const AllCategories = () => {
 
     };
 
-    const editCatHandler=(ele)=>{
+    const editCatHandler = (ele) => {
         // console.log(ele)
-        setCatDetails({...catDetails,open:true,details:ele})
+        setCatDetails({ ...catDetails, open: true, details: ele })
     }
     return (
         <>
@@ -110,9 +110,9 @@ const AllCategories = () => {
 
                 </Grid>
                 <Grid item xs={12} sx={{ p: '10px', display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-                                            <Button variant='contained' sx={{ fontSize: '14px' }} onClick={() => { addnewCatHandler(param.mid) }} >Add new categories</Button>
+                    <Button variant='contained' sx={{ fontSize: '14px' }} onClick={() => { addnewCatHandler(param.mid) }} >Add new categories</Button>
 
-                                        </Grid>
+                </Grid>
 
                 {
                     checkData ?
@@ -130,14 +130,14 @@ const AllCategories = () => {
                                 catData.length == 0 ?
                                     <CustomSkeleton tableHead={tableHead} /> :
                                     <Grid container>
-                              
+
 
                                         <Grid container>
                                             <Grid item xs={12}>
                                                 <TableContainer component={Paper}>
                                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                                         <TableHead>
-                                                            <TableRow sx={{bgcolor:'grey'}}>
+                                                            <TableRow sx={{ bgcolor: 'grey' }}>
                                                                 {
                                                                     tableHead.map((ele, index) => {
                                                                         return <TableCell key={index} align="center" sx={{ fontSize: '15px', fontWeight: '800' }}>{ele}</TableCell>
@@ -173,10 +173,12 @@ const AllCategories = () => {
                                                                             </TableCell>
 
 
-                                                                            <TableCell align="center" sx={{ fontSize: '14px' }}></TableCell>
+                                                                            <TableCell align="center" sx={{ fontSize: '14px' }}>
+                                                                                <Image src={require(`../../../../public/upload/${ele.image}`)} height={50} width={50} alt='cat iamge'/>
+                                                                            </TableCell>
                                                                             <TableCell align="center" >
-                                                                                <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} onClick={()=>{editCatHandler(ele)}} >Edit</Button>
-                                                                                <Button variant='contained' color='error' sx={{ fontSize: '10px' }} onClick={() => { deleteHandler(ele._id) }} >Delete</Button>
+                                                                                <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} onClick={() => { editCatHandler(ele) }} >Edit</Button>
+                                                                                <Button variant='contained' color='error' sx={{ fontSize: '10px' }} onClick={() => { deleteCatHandler(ele._id) }} >Delete</Button>
                                                                             </TableCell>
                                                                         </TableRow>
 
@@ -197,7 +199,7 @@ const AllCategories = () => {
                 }
 
             </Grid>
-            <EditCategoriesModal catDetails={catDetails} setCatDetails={setCatDetails} catData={catData} fetchCatApi={fetchCatApi}/>
+            <EditCategoriesModal catDetails={catDetails} setCatDetails={setCatDetails} catData={catData} fetchCatApi={fetchCatApi} />
         </>
     )
 }

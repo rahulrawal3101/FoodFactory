@@ -11,6 +11,7 @@ import hero1 from '../assets/hero1.jpg';
 import axios from 'axios';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
 
 
 
@@ -26,7 +27,7 @@ const page = () => {
     const fetchShopApi = async () => {
         try {
             const respData = await axios.get('/api/shop');
-            // console.log(getShopData);
+            console.log(respData);
             if (respData.data.message == "All Data Fetch") {
                 setGetShopData(respData.data.resp);
                 setCheckData(false)
@@ -138,7 +139,7 @@ const page = () => {
 
                                                                 <Box sx={{ position: 'relative', height: '250px', width: { lg: '285px', md: '280px', sm: '280px', xs: '280px' } }}>
 
-                                                                    <Image src={food2} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
+                                                                   <Image src={require(`../public/upload/${ele.image}`)} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
                                                                 </Box>
                                                                 <Box>
                                                                     <Typography sx={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center', mt: '5px' }}>{ele.shopName}</Typography>
@@ -243,7 +244,8 @@ const page = () => {
 
                                                             <Box sx={{ position: 'relative', height: '250px', width: { lg: '285px', md: '280px', sm: '280px', xs: '280px' } }}>
 
-                                                                <Image src={hero1} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
+                                                                {/* <Image src={hero1} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} /> */}
+                                                                <Image src={require(`../public/upload/${ele.image}`)} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
                                                             </Box>
                                                             <Box>
                                                                 <Typography sx={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center', mt: '5px' }}>{ele.shopName}</Typography>
@@ -347,7 +349,7 @@ const page = () => {
 
                                                             <Box sx={{ position: 'relative', height: '250px', width: { lg: '285px', md: '280px', sm: '280px', xs: '280px' } }}>
 
-                                                                <Image src={food3} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
+                                                            <Image src={require(`../public/upload/${ele.image}`)} alt='food' objectFit='cover' style={{ width: '100%', borderRadius: '10px 10px 0px 0px', height: '250px' }} />
                                                             </Box>
                                                             <Box>
                                                                 <Typography sx={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center', mt: '5px' }}>{ele.shopName}</Typography>
@@ -394,6 +396,7 @@ const page = () => {
                   } 
 
                 </Grid>
+                <Footer/>
             </Container>
             {
                 active.length == 0 ? ''

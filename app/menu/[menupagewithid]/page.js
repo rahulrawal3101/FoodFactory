@@ -51,7 +51,7 @@ const MenuPage = () => {
 
         try {
             const getProductData = await axios.get(`/api/products/${param.menupagewithid}`)
-            // console.log(getProductData);
+            console.log(getProductData);
             if (getProductData.data.message == "Data Fetch Successfully") {
 
                 setCategory(getProductData.data.respCat);
@@ -120,7 +120,7 @@ const MenuPage = () => {
         fetchCartApi();
     }, [])
 
-    console.log(cartData.length)
+    // console.log(cartData.length)
 
 
     // console.log(param);

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 const AddNewShop = () => {
     const router = useRouter();
-    
+
     const [age, setAge] = useState('');
     const [getData, setGetData] = useState([])
     const [sendData, setSendData] = useState({
@@ -20,25 +20,41 @@ const AddNewShop = () => {
         mobileShop: '',
         emailShop: '',
         shopAddress: '',
-        
-
-
-
+        image: ''
     })
 
     const shopDetailsHandler = (e) => {
-        const { name, value } = e.target;
-        setSendData({ ...sendData, [name]: value });
+        if (e.target.name == 'image'){
+            const { name, files, } = e.target;
+        setSendData({ ...sendData, image: files[0] });
+        }else{
+            const { name, value, } = e.target;
+            setSendData({ ...sendData, [name]: value });
+        }
+
+            
 
     };
 
 
     const SubmitHandler = async () => {
         if (sendData.shopName && sendData.foodType && sendData.delivery && sendData.offPercentage && sendData.foodForCost && sendData.foodFormany && sendData.mobileShop && sendData.emailShop && sendData.shopAddress) {
+             
+            const formData = new FormData;
+            formData.append('shopName',sendData.shopName);
+            formData.append('foodType', sendData.foodType)
+            formData.append('offPercentage',sendData.offPercentage)
+            formData.append('foodFormany',sendData.foodFormany);
+            formData.append('foodForCost',sendData.foodForCost);
+            formData.append('delivery',sendData.delivery);
+            formData.append('mobileShop',sendData.mobileShop);
+            formData.append('emailShop',sendData.emailShop);
+            formData.append('shopAddress',sendData.shopAddress);
+            formData.append('image',sendData.image)
             try {
-                const res = await axios.post('/api/shop', sendData);
+                const res = await axios.post('/api/shop', formData);
                 // console.log(res);
-                if(res.status == 201){
+                if (res.status == 200) {
                     router.push('/admin/allshops')
                 }
             } catch (err) {
@@ -49,11 +65,9 @@ const AddNewShop = () => {
         } else {
             alert('fill the required fields');
         }
-        
+
 
     }
-
-
     // console.log(sendData)
     // console.log(getData)
     return (
@@ -109,10 +123,15 @@ const AddNewShop = () => {
                     </Grid>
                     <Grid item lg={7} md={7} sm={12} xs={12} >
                         <Box sx={{ height: "30px", width: "100%", border: '1px solid black', }}>
-                            <Typography sx={{ position: "relative", top: "0px", mt: "4px", textAlign: 'center' }}>
+                            {/* <Typography sx={{ position: "relative", top: "0px", mt: "4px", textAlign: 'center' }}>
                                 <input type='file' style={{ zIndex: 99, opacity: 0, position: "absolute", left: "0px", top: "0px", height: "30px", width: "100%" }} />
                                 Choose Image
-                            </Typography>
+                            </Typography> */}
+                            <Box sx={{ border: '1px solid black', p: '5px' }}>
+
+                                <input type='file' onChange={shopDetailsHandler} name='image'  />
+
+                            </Box>
                         </Box>
                     </Grid>
                 </Grid>

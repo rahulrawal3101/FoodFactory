@@ -12,7 +12,7 @@ const shopSchema = new mongoose.Schema({
     image: {
         type: String,
         required: false,
-        default:'/uploads/abc.png'
+        // default:'/uploads/abc.png'
     },
     rating: {
         type: Number,

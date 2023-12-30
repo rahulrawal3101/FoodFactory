@@ -8,9 +8,9 @@ export const PATCH=async(req,{params})=>{
 await CONNECT_DATABASE();
 try{
     const body = await req.json();
-    console.log('checking req data',body);
+    // console.log('checking req data',body);
     const res = await Categorie.findOneAndUpdate({_id:params.id},{name:body.name,isAvailable:body.isAvailable},{new:true});
-    console.log('new update',res)
+    // console.log('new update',res)
     if(res){
         return NextResponse.json({message:'Category Updated Successfully'},{status:200})
     }else{
