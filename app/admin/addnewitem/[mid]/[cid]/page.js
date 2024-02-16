@@ -15,21 +15,36 @@ const AddNewItem = () => {
         mid: param.mid,
         mrp: '',
         srp: '',
-        foodType: ''
+        foodType: '',
+        image:''
     });
 
     const addNewItemHandler = (e) => {
-        const { name, value } = e.target;
-        setAdditem({ ...addItem, [name]: value })
+        if(e.target.name == 'image'){
+            const {name,files}=e.target;
+            setAdditem({...addItem,image:files[0]})
+        }else{
+            const { name, value } = e.target;
+            setAdditem({ ...addItem, [name]: value })
+        }
+
 
     };
 
     const AddItemHandler = async () => {
         if (addItem.name && addItem.mrp && addItem.srp && addItem.foodType) {
+            const formData = new FormData;
+            formData.append('name',addItem.name);
+            formData.append('cid',addItem.cid);
+            formData.append('mid',addItem.mid);
+            formData.append('mrp',addItem.mrp);
+            formData.append('srp',addItem.srp);
+            formData.append('foodType',addItem.foodType);
+            formData.append('image',addItem.image)
             try {
-                const res = await axios.post(`/api/item/${param.cid}`,addItem);
+                const res = await axios.post(`/api/item/${param.cid}`, formData);
                 // console.log(res);
-                if (res.status == 201) {
+                if (res.status == 200) {
                     router.back()
                 }
             } catch (err) {
@@ -68,11 +83,16 @@ const AddNewItem = () => {
 
                     </Grid>
                     <Grid item lg={7} md={7} sm={12} xs={12} >
-                        <Box sx={{ height: "30px", width: "100%", border: '1px solid black', }}>
+                        {/* <Box sx={{ height: "30px", width: "100%", border: '1px solid black', }}>
                             <Typography sx={{ position: "relative", top: "0px", mt: "4px", textAlign: 'center' }}>
                                 <input type='file' style={{ zIndex: 99, opacity: 0, position: "absolute", left: "0px", top: "0px", height: "30px", width: "100%" }} />
                                 Choose Image
                             </Typography>
+                        </Box> */}
+                        <Box sx={{ border: '1px solid black', p: '5px' }}>
+
+                            <input type='file' onChange={addNewItemHandler} name='image' />
+
                         </Box>
                     </Grid>
                 </Grid>

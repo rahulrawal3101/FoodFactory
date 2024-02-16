@@ -30,16 +30,16 @@ const Header = () => {
             <Grid container>
               <Grid item lg={3} md={3} sm={2} xs={4}>
                 {/* <Typography sx={{ fontSize: { lg: '24px', md: '22px', sm: '19px', xs: '17px' }, fontWeight: 'bold', color: '#43a047' }} onClick={homePage}>AdelsocialFood</Typography> */}
-                <Box sx={{width:'100px', height:'50px', borderRadius:'10px'}}>
+                <Box sx={{width:'90px', height:'48px', borderRadius:'10px'}}>
                   <Image src={adellogo} style={{width:'100%', height:'100%',borderRadius:'10px'}}/>
                 </Box>
 
               </Grid>
-              <Grid item lg={8} md={8} sm={8} xs={7} sx={{ display:{ lg:'flex', md:'flex', sm:'none', xs:'none'}, justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }}>Home</Typography>
+              <Grid item lg={7} md={7} sm={7} xs={6} sx={{ display:{ lg:'flex', md:'flex', sm:'none', xs:'none'}, justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }} onClick={()=>{router.push('/')}}>Home</Typography>
                 <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }}>About</Typography>
                 <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }}>Contact</Typography>
-                <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }} onClick={goToAdminDashboard}>Services</Typography>
+                
                 <Box>
 
                   <Button variant='contained' color='success' sx={{ fontSize: '15px', p: '4px 13px', mr: '10px' }} onClick={() => { router.push('/login') }}>Login</Button>
@@ -50,6 +50,7 @@ const Header = () => {
             </Grid>
 
             <Grid item lg={1} md={1} sm={2} xs={2} sx={{ display: 'flex', justifyContent: 'right', alignItems: 'center', }}>
+            <Typography sx={{ fontSize: { lg: '15px', md: '14px', sm: '13px', xs: '13px' }, cursor: 'pointer', fontWeight: 'bold', color: 'white' }} onClick={goToAdminDashboard}>Services</Typography>
 
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar content='R' alt="Remy Sharp" sx={{ ml: '10px', cursor: 'pointer' }} onClick={profileHanlder}>R</Avatar>

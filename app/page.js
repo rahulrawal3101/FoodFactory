@@ -126,11 +126,11 @@ const page = () => {
 
 
                                     </Grid> :
-                                    <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px' }}>
+                                    <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px', bgcolor:'#f5f5f5' }}>
                                         {
                                             popular.map((ele, index) => {
                                                 return (
-                                                    <Grid key={index} item lg={2.4} md={3} sm={5} xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: '10px' }} onClick={() => { goToMenuPage(ele._id) }}>
+                                                    <Grid key={index} item lg={2.4} md={3} sm={5} xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: '10px',cursor:'pointer' }} onClick={() => { goToMenuPage(ele._id) }}>
                                                         <Paper sx={{ borderRadius: '20px ' }} elevation={1}>
 
 
@@ -230,7 +230,7 @@ const page = () => {
 
 
                                 </Grid> :
-                                <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px' }}>
+                                <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px',cursor:'pointer' }}>
                                     {
                                         nonPopular.map((ele, index) => {
                                             // console.log(ele)
@@ -336,7 +336,7 @@ const page = () => {
 
 
                                 </Grid> :
-                                <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px' }}>
+                                <Grid container sx={{ mt: '20px', justifyContent: 'space-evenly', alignItems: 'center', display: 'flex', overflow: 'hidden', p: '10px',cursor:'pointer' }}>
                                     {
                                         getShopData.map((ele, index) => {
                                             return (

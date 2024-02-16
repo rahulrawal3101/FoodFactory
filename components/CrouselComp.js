@@ -8,7 +8,8 @@ import hero1 from '../assets/hero1.jpg';
 import hero6 from '../assets/hero6.jpg';
 import hero3 from '../assets/hero3.jpg';
 import hero4 from '../assets/hero4.jpg';
-import hero5 from '../assets/hero5.webp'
+import hero5 from '../assets/hero5.webp';
+import hero7 from '../assets/hero7.jpg';
 import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 
@@ -31,7 +32,7 @@ const CrouselComp = () => {
     caption: "Slide 3"
   },
   {
-    silde: hero6,
+    silde: hero7,
     caption: "Slide 3"
   },
 
@@ -52,7 +53,7 @@ const CrouselComp = () => {
             {
               images.map((ele, index) => (
                 <Box key={index}>
-                  <Box sx={{ backgroundImage: `url(${ele.silde.src})`, display: "flex", alignItems: "center", justifyContent: "center", height: { lg: "520px", md: "520px", sm: "400px", xs: "185px" }, backgroundSize: "100% 100%" }}>
+                  <Box sx={{ backgroundImage: `url(${ele.silde.src})`, display: "flex", alignItems: "center", justifyContent: "center", height: { lg: "600px", md: "520px", sm: "400px", xs: "185px" }, backgroundSize: "100% 100%", backgroundRepeat:'no-repeat' }}>
 
                   </Box>
                 </Box>

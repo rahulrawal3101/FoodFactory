@@ -6,13 +6,9 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { Button, CssBaseline, Paper, TextField } from '@mui/material';
+import { Button, CssBaseline, OutlinedInput, Paper, TextField } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
-
-
-
 
 
 const RegisterPage = () => {
@@ -40,14 +36,14 @@ const RegisterPage = () => {
         console.log(userData);
         if (userData.fullName && userData.email && (userData.mobile.length > 9 && userData.mobile.length < 11) && userData.password.length > 7) {
             try {
-                const getUserData = await axios.post('/api/user',userData);
-                if(getUserData.data.message == 'This Mobile No is Already Register'){
+                const getUserData = await axios.post('/api/user', userData);
+                if (getUserData.data.message == 'This Mobile No is Already Register') {
                     alert(getUserData.data.message);
                 }
-                if(getUserData.data.message == 'User Registered Successfully'){
+                if (getUserData.data.message == 'User Registered Successfully') {
                     router.push('/login');
                 }
-                
+
 
             } catch (err) {
                 console.log(err);
@@ -72,7 +68,7 @@ const RegisterPage = () => {
     return (
         <>
             <Grid container>
-                <Grid item xs={12} sx={{ bgcolor: "black", p: '10px', position: 'sticky', top: '0px', zIndex:'99999' }}>
+                <Grid item xs={12} sx={{ bgcolor: "black", p: '10px', position: 'sticky', top: '0px', zIndex: '99999' }}>
                     <Typography sx={{ fontSize: '30px', fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Register</Typography>
 
                 </Grid>
@@ -84,7 +80,7 @@ const RegisterPage = () => {
                     <Grid item lg={4} md={5} sm={6} xs={8}>
 
                         <Paper sx={{ p: '5px', mt: '60px' }} elevation={2}>
-                            <CssBaseline />
+                            
                             <Box
                                 sx={{
                                     marginTop: 2,
@@ -99,24 +95,30 @@ const RegisterPage = () => {
                                 <Typography component="h1" variant="h5">
                                     Sign up
                                 </Typography>
-                                <Box  sx={{ mt: 3 }}>
-                                    <Grid container spacing={2}>
+                                <Box >
+                                    <Grid container >
+                                    <Grid item xs={12}>
+                                            <Typography sx={{ fontSize: '17px', }}>Full Name</Typography>
+                                        </Grid>
                                         <Grid item xs={12} >
-                                            <TextField
+                                            <OutlinedInput
                                                 autoComplete="given-name"
 
                                                 required
                                                 fullWidth
                                                 name="fullName"
                                                 value={userData.fullName}
-                                                label="Full Name"
+                                                
                                                 onChange={userDetails}
                                                 autoFocus
+                                                size='small'
                                             />
                                         </Grid>
-
+                                        
                                         <Grid item xs={12}>
-                                            <TextField
+                                            <Grid item xs={12}>
+                                            <Typography sx={{ fontSize: '17px', mt:'10px' }}>Email</Typography>
+                                        </Grid><OutlinedInput
                                                 required
                                                 fullWidth
                                                 name="email"
@@ -124,10 +126,15 @@ const RegisterPage = () => {
                                                 label="Email"
                                                 autoComplete="email"
                                                 onChange={userDetails}
+                                                size='small'
                                             />
                                         </Grid>
+
                                         <Grid item xs={12}>
-                                            <TextField
+                                            <Typography sx={{ fontSize: '17px', mt:'10px' }}>Mobile</Typography>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <OutlinedInput
                                                 required
                                                 fullWidth
                                                 name="mobile"
@@ -136,10 +143,15 @@ const RegisterPage = () => {
                                                 type="number"
                                                 autoComplete="new-password"
                                                 onChange={userDetails}
+                                                size='small'
                                             />
                                         </Grid>
+
                                         <Grid item xs={12}>
-                                            <TextField
+                                            <Typography sx={{ fontSize: '17px', mt:'10px' }}>Password</Typography>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <OutlinedInput
                                                 required
                                                 fullWidth
                                                 label="Password"
@@ -148,10 +160,11 @@ const RegisterPage = () => {
                                                 name="password"
                                                 value={userData.password}
                                                 onChange={userDetails}
+                                                size='small'
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography sx={{ fontSize: '17px', }}>Image</Typography>
+                                            <Typography sx={{ fontSize: '17px', mt:'10px' }}>Image</Typography>
                                         </Grid>
 
                                         <Grid item xs={12} sx={{ mt: '3px' }}>
@@ -171,11 +184,6 @@ const RegisterPage = () => {
                                         sx={{ mt: 3, mb: 2, bgcolor: 'black', }}
                                         disabled={btn}
                                         onClick={handleSubmit}
-
-
-
-
-
                                     >
                                         Sign Up
                                     </Button>

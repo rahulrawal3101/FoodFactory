@@ -52,7 +52,7 @@ const Allitem = () => {
 
 
     const deleteHandler = async (id) => {
-        console.log(id)
+        // console.log(id)
         try {
             const res = await axios.delete(`/api/deleteitem/${id}`);
             // console.log(res);
@@ -72,7 +72,7 @@ const Allitem = () => {
     // console.log(itemAllData);
 
     const itemAvailable = async (e, id) => {
-        console.log(e)
+        // console.log(e)
         setHideBtn(id)
         try {
             const updateItem = await axios.patch(`/api/edititem/${id}`, { isAvailable: e.target.checked });

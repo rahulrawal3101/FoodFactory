@@ -6,13 +6,20 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import gif1 from '../../../assets/gif1.gif';
+import AdminEditActiveOrderModal from '@/components/AdminEditActiveOrderModal';
 
 const AllActiveOrders = () => {
     const router = useRouter();
     const [activeOrders, setActiveOrders] = useState([]);
     const [open, setOpen] = useState(false);
     const skelArr = new Array(6).fill(1);
-    const [checkData, setCheckData] = useState(false)
+    const [checkData, setCheckData] = useState(false);
+    const [updateActiveOrders, setUpdateActiveOrders] = useState(
+        {
+            open:false,
+            details:{}
+        }
+    )
 
     const fetchAllAddressApi = async () => {
         try {
@@ -33,14 +40,37 @@ const AllActiveOrders = () => {
         }
 
     };
-    // console.log(activeOrders.length)
+    // console.log(activeOrders)
     useEffect(() => {
         fetchAllAddressApi();
     }, []);
 
     const detailsHandler = (id) => {
-        console.log(id);
+        // console.log(id);
         router.push(`/admin/userdetails/${id}`)
+    };
+
+    const EditActiveOrderHandler=(ele)=>{
+        setUpdateActiveOrders({...updateActiveOrders,open:true,details:ele})
+
+    };
+
+    const deleteActiveOrder=async(id)=>{
+        console.log(id);
+        try{
+            const res = await axios.delete(`/api/allactiveorders/${id}`)
+            // console.log(res)
+            if(res.data.message == "Delete Active Order Successfully"){
+                fetchAllAddressApi();
+            }
+            if(res.data.message == "Failed To Delete Active Order"){
+                alert(res.data.message)
+            }
+        }catch(err){
+            console.log(err);
+            alert(err.message);
+        }
+
     }
     
     return (
@@ -139,8 +169,8 @@ const AllActiveOrders = () => {
                                                                 <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.addres.address}</TableCell>
                                                                 <TableCell align="center" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{ele.addres.mobile}</TableCell>
                                                                 <TableCell align="center" >
-                                                                    <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} >Edit</Button>
-                                                                    <Button variant='contained' color='error' sx={{ fontSize: '10px' }} >Delete</Button>
+                                                                    <Button variant='contained' color='success' sx={{ fontSize: '10px', mr: '20px', }} onClick={()=>{EditActiveOrderHandler(ele)}} >Edit</Button>
+                                                                    <Button variant='contained' color='error' sx={{ fontSize: '10px' }} onClick={()=>{deleteActiveOrder(ele._id)}}>Delete</Button>
                                                                 </TableCell>
                                                             </TableRow>
                                                         })
@@ -163,6 +193,7 @@ const AllActiveOrders = () => {
 
 
             </Grid>
+            <AdminEditActiveOrderModal updateActiveOrders={updateActiveOrders} setUpdateActiveOrders={setUpdateActiveOrders} fetchAllAddressApi={fetchAllAddressApi} />
             {/* <AddNewUser open={open} setOpen={setOpen} fetchUserApi={fetchUserApi} /> */}
         </>
     )

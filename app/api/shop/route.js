@@ -50,10 +50,10 @@ export async function GET(req) {
 //     }
 // };
 
-export const POST=async(req,{params})=>{
+export const POST = async (req, { params }) => {
     // console.log('req shop data',req)
     await CONNECT_DATABASE();
-    try{
+    try {
         const body = await req.formData();
         // console.log('body data', body);
         const shopName = await body.get('shopName');
@@ -66,38 +66,38 @@ export const POST=async(req,{params})=>{
         const emailShop = await body.get('emailShop');
         const shopAddress = await body.get('shopAddress');
         const image = await body.get('image');
-        if(image){
+        if (image) {
             const buffered = await image.arrayBuffer();
             const buffer = await Buffer.from(await buffered);
-            const fileName = Date.now()+image.name.replaceAll(" ","_");
-            const toSavePath = await process.cwd()+'/public/upload/'+ fileName
-            await fsPromises.writeFile(toSavePath,buffer);
+            const fileName = Date.now() + image.name.replaceAll(" ", "_");
+            const toSavePath = await process.cwd() + '/public/upload/' + fileName
+            await fsPromises.writeFile(toSavePath, buffer);
             const shopDetails = {
-                shopName:shopName,
-                foodType:foodType,
-                offPercentage:offPercentage,
-                foodFormany:foodFormany,
-                foodForCost:foodForCost,
-                delivery:delivery,
-                mobileShop:mobileShop,
-                emailShop:emailShop,
-                shopAddress:shopAddress,
-                image:fileName
+                shopName: shopName,
+                foodType: foodType,
+                offPercentage: offPercentage,
+                foodFormany: foodFormany,
+                foodForCost: foodForCost,
+                delivery: delivery,
+                mobileShop: mobileShop,
+                emailShop: emailShop,
+                shopAddress: shopAddress,
+                image: fileName
             }
             const toSave = await Shop(shopDetails);
             const saved = await toSave.save();
-            if(saved){
-                return NextResponse.json({message:'Data Submit Successfully'},{status:200});
-            }else{
-                return NextResponse.json({message:'Failed To Submit Data'},{status:200})
+            if (saved) {
+                return NextResponse.json({ message: 'Data Submit Successfully' }, { status: 200 });
+            } else {
+                return NextResponse.json({ message: 'Failed To Submit Data' }, { status: 200 })
             }
-        }else{
-            return NextResponse.json({message:'Please Upload Image Also'})
+        } else {
+            return NextResponse.json({ message: 'Please Upload Image Also' })
         }
-        
 
-    }catch(err){
-        return NextResponse.json({message:'Internal Server Error'},{status:500});
+
+    } catch (err) {
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 
 }

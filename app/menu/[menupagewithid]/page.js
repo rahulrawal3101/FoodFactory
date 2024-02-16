@@ -26,13 +26,14 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
 import gif1 from '../../../assets/gif1.gif'
+import { Scale } from '@mui/icons-material';
 
 
 const MenuPage = () => {
     const router = useRouter();
     const param = useParams();
     const skelArr = new Array(10).fill(1);
-    console.log(param)
+    // console.log(param)
 
     const [category, setCategory] = useState([]);
     const [item, setItem] = useState([]);
@@ -72,8 +73,8 @@ const MenuPage = () => {
 
     }
     console.log(item)
-    console.log(item);
-    console.log(category)
+    // console.log(item);
+    // console.log(category)
     useEffect(() => {
         fetchProductApi();
     }, []);
@@ -131,6 +132,7 @@ const MenuPage = () => {
     // console.log(item)
 
     // console.log(localStorage.getItem('UID'))
+
     return (
         <>
             <Grid container sx={{ bgcolor: '#f5f5f5' }}>
@@ -175,9 +177,9 @@ const MenuPage = () => {
                 </Grid>
                 {/* gif  */}
                 {
-                    checkData ? <Grid container sx={{ bgcolor:'white'}}>
-                        <Grid item xs={12} sx={{ p: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center',  }}>
-                            <Box sx={{ width: '30%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' ,  mt:'20px'}}>
+                    checkData ? <Grid container sx={{ bgcolor: 'white' }}>
+                        <Grid item xs={12} sx={{ p: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                            <Box sx={{ width: '30%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: '20px' }}>
 
                                 <Image src={gif1} alt='gif' objectFit='cover' style={{ width: '50%', height: '50%' }} />
                             </Box>
@@ -248,9 +250,8 @@ const MenuPage = () => {
 
                                                                     <FavoriteIcon sx={{ fontSize: '20px', color: '#e53935', mr: '15px', mt: '10px' }} />
                                                                 </Box>
-                                                                <Box sx={{ height: '150px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                    <Image alt='burger' src={pizza2} objectFit='cover' style={{ width: '80%', height: '150px', }} />
-
+                                                                <Box sx={{ height: '150px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', '&:hover': { transform: 'scale(1.1)', transition: 'transform 300ms' }, }}>
+                                                                    <Image src={require(`../../../public/upload/${ele.image}`)} style={{ width: '80%', height: '130px', }} />
                                                                 </Box>
                                                                 <Box sx={{ width: '100%', mt: '8px' }}>
                                                                     <Typography sx={{ fontWeight: 'bold', fontSize: '14px' }}>{ele.name}</Typography>
@@ -292,24 +293,16 @@ const MenuPage = () => {
 
                         </Grid>
                 }
-
-
-
-
-
-
-
-
             </Grid>
 
-        
 
-         
+
+
 
             {
 
                 cartData.length == 0 ? '' :
-                    <Badge color="secondary" overlap="circular" badgeContent={cartData.length} sx={{ position: 'fixed', bottom: 40, right: 40, width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: '#4caf50',cursor:'pointer' }} onClick={goTOCartPage} >
+                    <Badge color="secondary" overlap="circular" badgeContent={cartData.length} sx={{ position: 'fixed', bottom: 40, right: 40, width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: '#4caf50', cursor: 'pointer' }} onClick={goTOCartPage} >
                         <ShoppingCartIcon sx={{ fontSize: '25px', color: 'white' }} />
                     </Badge>
 

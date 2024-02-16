@@ -1,27 +1,20 @@
 'use client'
 import Header from '@/components/Header'
-// import { Container, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Image from 'next/image';
+// import Image from 'next/image';
 import human from '../../../assets/human.jpg'
 import { Paper, Skeleton } from '@mui/material';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import ChangePassword from '@/components/ChangePasswordModal';
 import EditProfile from '@/components/EditProfileModal';
+import Image from 'next/image';
 
 
 
@@ -98,7 +91,7 @@ const Profile = () => {
                                                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main', width: '100px', height: '100px' }}>
                                                     <Box sx={{ width: '100px', height: '100px' }}>
 
-                                                        <Image src={human} alt='img' style={{ width: '100px', height: '100px' }} />
+                                                        <Image src={human} alt='img'  style={{ width: '100px', height: '100px' }} />
                                                     </Box>
                                                 </Avatar>
                                             </Grid>

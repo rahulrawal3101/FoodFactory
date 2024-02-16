@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const EditCategoriesModal = ({ catDetails, setCatDetails,fetchCatApi }) => {
-    console.log(catDetails.details.name);
+    // console.log(catDetails.details.name);
 
     const handleClose = () => {
         setCatDetails({ ...catDetails, open: false })
@@ -27,7 +27,7 @@ const EditCategoriesModal = ({ catDetails, setCatDetails,fetchCatApi }) => {
     const updateCatHandler=async()=>{
         try{
             const res = await axios.patch(`/api/editfullcategories/${catDetails.details._id}`,catDetails.details)
-            console.log(res);
+            // console.log(res);
             if(res.data.message == "Category Updated Successfully"){
                 setCatDetails({ ...catDetails, open: false })
                 fetchCatApi()

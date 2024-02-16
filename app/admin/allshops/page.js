@@ -38,7 +38,7 @@ const AllShops = () => {
 
 
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             alert('Error while fetching', err.message)
         }
     }

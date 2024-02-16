@@ -19,7 +19,7 @@ try{
         }
     }
     if(!isUserExit){
-        return NextResponse.json({message:'This Mobile no is Not Registered'},{status:200});
+        return NextResponse.json({message:'This Mobile No is Not Registered'},{status:200});
     }
 
 

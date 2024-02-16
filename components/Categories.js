@@ -45,7 +45,7 @@ const Categories = ({ category }) => {
                         <Image src={require(`../public/upload/${ele.image}`)} style={{ width: '75px', height: '90%' }} />
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pb: '10px' }}>
-                        <Typography sx={{ color: 'grey', fontSize: '15px' }}>{ele.name}</Typography>
+                        <Typography sx={{ color: 'grey', fontSize: '15px' }}>{ele.name.slice(0,10)}..</Typography>
                     </Box>
                 </Paper>
             </Box>

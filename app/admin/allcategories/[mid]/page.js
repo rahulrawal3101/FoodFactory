@@ -25,7 +25,7 @@ const AllCategories = () => {
     const fetchCatApi = async () => {
         try {
             const getCataData = await axios.get(`/api/category/${param.mid}`);
-            console.log(getCataData)
+            // console.log(getCataData)
             if (getCataData.data.message == 'All Data Fetch') {
                 setCatData(getCataData.data.resp);
                 setCheckData(false)
@@ -57,7 +57,7 @@ const AllCategories = () => {
         // console.log(id)
         try {
             const res = await axios.delete(`/api/deletecategory/${id}`);
-            console.log(res);
+            // console.log(res);
             if (res.data.message == 'Category Deleted Successfully') {
                 fetchCatApi();
             }
@@ -103,7 +103,7 @@ const AllCategories = () => {
     }
     return (
         <>
-            <Grid container>
+            <Grid container >
                 <AdminPanel />
                 <Grid item xs={12} sx={{ bgcolor: 'black', p: '10px' }}>
                     <Typography sx={{ fontSize: '25px', fontWeight: '800', textAlign: 'center', color: '#2196f3' }}>All Categories</Typography>
@@ -148,7 +148,6 @@ const AllCategories = () => {
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
-
                                                             {
                                                                 catData.map((ele, index) => {
 
@@ -171,8 +170,6 @@ const AllCategories = () => {
 
 
                                                                             </TableCell>
-
-
                                                                             <TableCell align="center" sx={{ fontSize: '14px' }}>
                                                                                 <Image src={require(`../../../../public/upload/${ele.image}`)} height={50} width={50} alt='cat iamge'/>
                                                                             </TableCell>
@@ -185,8 +182,6 @@ const AllCategories = () => {
                                                                     )
                                                                 })
                                                             }
-
-
 
                                                         </TableBody>
                                                     </Table>
