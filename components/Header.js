@@ -5,7 +5,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import avatar from '../assets/hero2.webp';
 import Image from 'next/image';
-import adellogo from '../assets/adellogo.png'
+import adellogo from '../assets/adellogo.png';
+import logo1 from '../assets/logo1.png';
 
 
 const Header = () => {

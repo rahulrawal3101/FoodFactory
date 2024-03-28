@@ -64,14 +64,7 @@ const LoginPage = () => {
                         <Paper sx={{ p: '5px' }} elevation={2}>
 
                             <CssBaseline />
-                            <Box
-                                sx={{
-                                    marginTop: 8,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}
-                            >
+                            <Box sx={{marginTop: 8,display: 'flex',flexDirection: 'column',alignItems: 'center'}}>
                                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                                     <LockOutlinedIcon />
                                 </Avatar>
@@ -79,8 +72,7 @@ const LoginPage = () => {
                                     Sign in
                                 </Typography>
                                 <Box  sx={{ mt: 1 }}>
-                                    <TextField
-                                    size='small'
+                                    <TextField size='small'
                                         margin="normal"
                                         required
                                         fullWidth
